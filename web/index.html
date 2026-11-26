@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LLMs não pensam em palavras · tokens, embeddings, atenção e probabilidades</title>
+<meta name="description" content="Um modelo de linguagem de verdade (GPT-2 em português) rodando no seu navegador: veja os tokens, os vetores, a atenção camada por camada e as probabilidades do próximo token, com temperatura, top-k e top-p.">
+<meta property="og:title" content="LLMs não pensam em palavras · com números de um modelo de verdade">
+<meta property="og:description" content="Tokens, embeddings, atenção e probabilidades de um GPT-2 português, rodando inteiro no navegador.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23007aff'/%3E%3Crect x='6' y='9' width='6' height='6' rx='1.5' fill='white'/%3E%3Crect x='13' y='9' width='6' height='6' rx='1.5' fill='white' opacity='.7'/%3E%3Crect x='20' y='9' width='6' height='6' rx='1.5' fill='white' opacity='.45'/%3E%3Cpath d='M9 18v3h14v-3' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a href="https://yucavalcante.com/">Yury Cavalcante</a>
+    <nav>
+      <a href="#tokens">Demo</a>
+      <a href="#experimentos">Experimentos</a>
+      <a href="https://github.com/YUCAVALCANTE/llm-por-dentro#readme">Relatório</a>
+      <a href="https://github.com/YUCAVALCANTE/llm-por-dentro">Código</a>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <span class="kicker">IA sem mágica · modelos de linguagem</span>
+    <h1>LLMs não pensam em palavras</h1>
+    <p>No artigo, os números eram ilustrativos. Aqui eles vêm de um modelo de verdade: um <b>GPT-2 de 124 milhões de parâmetros treinado em português</b>, rodando inteiro no seu navegador. Digite uma frase e siga o caminho: <b>tokens → vetores → atenção → probabilidades → próximo token</b>.</p>
+    <div class="acoes" id="acoesArtigo"><a class="btn" href="#experimentos">O que os experimentos mediram</a></div>
+  </section>
+
+  <section class="card entrada" aria-label="Frase e modelo">
+    <div class="campo">
+      <input type="text" id="frase" value="O banco fica perto do rio?" maxlength="300" aria-label="Frase para analisar" autocomplete="off" spellcheck="false">
+      <button class="btn primary" id="analisar">Analisar</button>
+    </div>
+    <div class="sugestoes" id="sugestoes">
+      <button class="chip">O banco fica perto do rio?</button>
+      <button class="chip">Depositei o dinheiro no banco e</button>
+      <button class="chip">Cansado, sentei num banco da praça e</button>
+      <button class="chip">O barco encalhou num banco de</button>
+      <button class="chip">A capital do Brasil é</button>
+    </div>
+    <div class="carga" id="carga">
+      <p id="cargaTexto">O modelo tem <b>~128 MB</b>. Ele é baixado uma vez e fica guardado no cache do navegador. Nada do que você digita sai do seu computador.</p>
+      <button class="btn" id="carregar">Carregar modelo</button>
+      <div class="barra" aria-hidden="true"><i id="cargaBarra"></i></div>
+      <small id="cargaDetalhe">Os tokens (etapa 1) já funcionam sem o modelo.</small>
+    </div>
+  </section>
+
+  <section class="etapa" id="tokens">
+    <div class="sec-head">
+      <span class="num-etapa">Etapa 1</span>
+      <h2>Tokens: o modelo nunca vê letras</h2>
+      <p>O tokenizador corta o texto em pedaços frequentes e troca cada um por um número (o ID). O "␣" é o espaço, que vira parte do token. Embaixo de cada ID estão os bytes (UTF-8) que ele representa.</p>
+    </div>
+    <div class="card">
+      <div class="tokens" id="listaTokens"><p class="vazio">Carregando o tokenizador…</p></div>
+    </div>
+    <div class="card">
+      <div class="sec-head" style="margin-bottom:8px">
+        <h3 style="margin:0;font-size:1.0625rem">Mesma frase, três tokenizadores, duas línguas</h3>
+        <p style="font-size:.9375rem">Cada modelo tem o próprio vocabulário. O GPT-2 original foi treinado em inglês e quebra o português em mais pedaços: mais tokens = mais custo e menos contexto.</p>
+      </div>
+      <div class="campo" style="margin-bottom:12px">
+        <input type="text" id="fraseEn" value="Is the bank near the river?" aria-label="A mesma frase em inglês" autocomplete="off" spellcheck="false">
+      </div>
+      <div style="overflow-x:auto"><table class="tabela-tok" id="tabelaTok"><thead><tr><th>Tokenizador</th><th>Português</th><th>Inglês</th></tr></thead><tbody></tbody></table></div>
+      <p class="nota" id="notaTokens"></p>
+    </div>
+  </section>
+
+  <section class="etapa" id="vetores">
+    <div class="sec-head">
+      <span class="num-etapa">Etapa 2</span>
+      <h2>Embeddings: cada token vira um vetor de 768 números</h2>
+      <p>Na entrada, o vetor de "banco" é sempre o mesmo, seja qual for a frase. Camada a camada, o contexto vai sendo somado a ele. Escolha a camada e veja os vetores de "banco" em frases de cada sentido se afastarem.</p>
+    </div>
+    <div class="card">
+      <div class="linha-ctl" style="margin-bottom:12px">
+        <div class="grupo"><span>O que projetar</span>
+          <div class="seg" id="modoVetor"><button data-v="contexto" aria-pressed="true">"banco" em contexto</button><button data-v="estatico" aria-pressed="false">Vetores de entrada</button></div>
+        </div>
+        <div class="grupo faixa" id="grupoCamadaVet"><span>Camada</span><output id="camadaVetV">4</output><input type="range" id="camadaVet" min="0" max="12" value="4" aria-label="Camada"></div>
+      </div>
+      <div class="svgbox" id="pcaBox"><p class="vazio">Carregue o modelo para ver os vetores.</p></div>
+      <div class="legenda-viz" id="pcaLegenda" style="margin-top:10px"></div>
+      <p class="nota" id="pcaMetrica" style="margin-left:0"></p>
+      <div class="aviso" id="pcaAviso" style="margin-top:12px">É uma projeção: 768 dimensões espremidas em 2 (PCA). Pontos perto no plano podem estar longe no espaço original.</div>
+    </div>
+  </section>
+
+  <section class="etapa" id="atencao">
+    <div class="sec-head">
+      <span class="num-etapa">Etapa 3</span>
+      <h2>Atenção: quem olha para quem</h2>
+      <p>Pesos reais de atenção do modelo. Cada linha é um token "perguntando" e soma 100% entre os tokens anteriores. Acima da diagonal fica a <b>máscara causal</b>: nenhum token enxerga o que vem depois. Clique numa linha para ver as setas.</p>
+    </div>
+    <div class="card">
+      <div class="linha-ctl" style="margin-bottom:12px">
+        <div class="grupo faixa"><span>Camada</span><output id="camadaAttV">1</output><input type="range" id="camadaAtt" min="1" max="12" value="1" aria-label="Camada"></div>
+        <div class="grupo"><span>Cabeça</span><select id="cabeca" aria-label="Cabeça de atenção"></select></div>
+      </div>
+      <div class="duas">
+        <div class="svgbox" id="mapaBox"><p class="vazio">Carregue o modelo para ver a atenção.</p></div>
+        <div class="svgbox" id="setasBox"></div>
+      </div>
+      <div class="aviso" style="margin-top:12px">Repare quanto da atenção vai para o primeiro token, que quase nunca é o mais importante. Atenção mostra para onde a informação flui, não por que o modelo decidiu. O experimento 4 mede isso.</div>
+    </div>
+  </section>
+
+  <section class="etapa" id="proximo">
+    <div class="sec-head">
+      <span class="num-etapa">Etapa 4</span>
+      <h2>Logits → softmax → próximo token</h2>
+      <p>O último vetor é comparado com os 50.257 tokens do vocabulário: cada comparação dá um <b>logit</b>. Dividir pela temperatura e aplicar o softmax transforma tudo em probabilidades. Top-k e top-p cortam a cauda, e um sorteio com semente escolhe o token, que entra no contexto para a próxima rodada.</p>
+    </div>
+    <div class="card">
+      <div class="linha-ctl" style="margin-bottom:16px">
+        <div class="grupo faixa"><span>Temperatura</span><output id="tempV">0,80</output><input type="range" id="temp" min="0" max="2" step="0.05" value="0.8" aria-label="Temperatura"></div>
+        <div class="grupo faixa"><span>Top-k (0 = desligado)</span><output id="topkV">40</output><input type="range" id="topk" min="0" max="100" step="1" value="40" aria-label="Top-k"></div>
+        <div class="grupo faixa"><span>Top-p</span><output id="toppV">0,95</output><input type="range" id="topp" min="0.05" max="1" step="0.01" value="0.95" aria-label="Top-p"></div>
+        <div class="grupo"><span>Semente</span><input type="number" id="semente" value="42" min="0" max="999999" style="min-height:36px;border:0;border-radius:8px;background:var(--badge);color:var(--ink);font:inherit;padding:0 10px;width:110px" aria-label="Semente"></div>
+      </div>
+      <div class="sec-head" style="margin-bottom:6px"><h3 style="margin:0;font-size:1.0625rem">Contexto</h3></div>
+      <div class="contexto" id="contexto"><span>…</span></div>
+      <div class="acoes" style="margin:16px 0">
+        <button class="btn primary" id="passo" disabled>Sortear próximo token</button>
+        <button class="btn" id="gerar10" disabled>Gerar 10</button>
+        <button class="btn" id="desfazer" disabled>Desfazer</button>
+        <button class="btn" id="recomecar" disabled>Recomeçar</button>
+      </div>
+      <div class="duas">
+        <div>
+          <div class="candidatos" id="candidatos"><p class="vazio">Carregue o modelo para ver as probabilidades.</p></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="sec-head" style="margin:0"><h3 style="margin:0;font-size:1.0625rem">O sorteio</h3><p style="font-size:.875rem" id="explicaSorteio">Os tokens que sobraram dividem a faixa de 0 a 1 conforme a probabilidade. Um número da semente cai em um deles.</p></div>
+          <div class="roleta" id="roleta"></div>
+          <div class="painel" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:4px">
+            <div class="stat"><b id="vMantidos">–</b><span>tokens que sobram após os cortes</span></div>
+            <div class="stat"><b id="vMassa">–</b><span>probabilidade que eles somavam</span></div>
+            <div class="stat"><b id="vRede">–</b><span>tempo da rede (no seu navegador)</span></div>
+            <div class="stat"><b id="vEntropia">–</b><span>entropia (bits): incerteza da escolha</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experimentos" class="etapa">
+    <div class="sec-head">
+      <span class="kicker">Os pontos do artigo, agora medidos</span>
+      <h2>Quatro experimentos reproduzíveis</h2>
+      <p>Mesmo modelo, em PyTorch, com o código e os dados no repositório. Os números abaixo vêm de <code>reports/resultados/*.json</code>.</p>
+    </div>
+    <div class="figuras" id="figuras"></div>
+  </section>
+
+  <footer>
+    Modelo: <a href="https://huggingface.co/pierreguillou/gpt2-small-portuguese">pierreguillou/gpt2-small-portuguese</a> (GPT-2 small ajustado na Wikipédia em português, licença MIT), exportado para ONNX com pesos int8 e rodando com onnxruntime-web num Web Worker. Tokenizadores via Transformers.js. Código em <a href="https://github.com/YUCAVALCANTE/llm-por-dentro">github.com/YUCAVALCANTE/llm-por-dentro</a>.
+  </footer>
+</div>
+<div class="dica" id="dica"></div>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

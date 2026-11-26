@@ -1,0 +1,60 @@
+{
+  "modelo": "pierreguillou/gpt2-small-portuguese",
+  "revisao": "89a916c041b54c8b925e1a3282a5a334684280cb",
+  "licenca": "MIT",
+  "camadas": 12,
+  "cabecas": 12,
+  "dimensao": 768,
+  "vocabulario": 50257,
+  "contexto_max": 1024,
+  "arquivos": {
+    "blocos.onnx": {
+      "bytes": 89071219,
+      "sha256": "f0d3f9db75324f38790ad5ffda17bfc50be126d72194910e786fcba805f424e4"
+    },
+    "wte.i8": {
+      "bytes": 38597376,
+      "sha256": "4d2a3c107ec81b3474e06db3821a1282fd7a40c8e4368b21d5698d07ee9a2e74"
+    },
+    "wte.escala.f32": {
+      "bytes": 201028,
+      "sha256": "2c2da25bffe320154cd2e4475d202419a39c5ec3950724d309499464a74cb28e"
+    }
+  },
+  "tokenizadores": [
+    {
+      "id": "gpt2-pt",
+      "repo": "pierreguillou/gpt2-small-portuguese",
+      "rotulo": "GPT-2 português (o modelo da demo)",
+      "vocabulario": 50257
+    },
+    {
+      "id": "gpt2",
+      "repo": "openai-community/gpt2",
+      "rotulo": "GPT-2 original (treinado em inglês)",
+      "vocabulario": 50257
+    },
+    {
+      "id": "qwen2.5",
+      "repo": "Qwen/Qwen2.5-0.5B",
+      "rotulo": "Qwen2.5 (multilíngue, 2024)",
+      "vocabulario": 151665
+    }
+  ],
+  "verificacao": [
+    {
+      "frase": "O banco fica perto do rio?",
+      "top1_igual": true,
+      "top10_em_comum": 9,
+      "atencao_erro_max": 0.06641325354576111,
+      "logits_correlacao": 0.9995055761432812
+    },
+    {
+      "frase": "Depositei o dinheiro no banco e",
+      "top1_igual": true,
+      "top10_em_comum": 9,
+      "atencao_erro_max": 0.060859739780426025,
+      "logits_correlacao": 0.9994763350597795
+    }
+  ]
+}

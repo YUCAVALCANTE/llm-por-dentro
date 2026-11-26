@@ -1,0 +1,9 @@
+{
+  "name": "llm-por-dentro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"web/test/*.test.js\"",
+    "servir": "node scripts/servidor.mjs 8766"
+  }
+}

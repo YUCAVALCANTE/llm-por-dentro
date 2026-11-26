@@ -1,0 +1,225 @@
+{
+  "prompts": [
+    "O banco fica perto do rio e",
+    "A inteligência artificial é",
+    "Ontem à noite, na cidade,"
+  ],
+  "temperaturas": [
+    0.0,
+    0.3,
+    0.6,
+    0.8,
+    1.0,
+    1.2,
+    1.5
+  ],
+  "sementes": 20,
+  "novos_tokens": 40,
+  "linhas": [
+    {
+      "prompt": "O banco fica perto do rio e",
+      "temperatura": 0.0,
+      "saidas_distintas": 1,
+      "distinct2": 0.041025641025641026,
+      "repeticao_interna": 0.13157894736842107,
+      "surpresa_media": 1.1014594813632121
+    },
+    {
+      "prompt": "O banco fica perto do rio e",
+      "temperatura": 0.3,
+      "saidas_distintas": 20,
+      "distinct2": 0.5397435897435897,
+      "repeticao_interna": 0.06842105263157894,
+      "surpresa_media": 1.390617556469947
+    },
+    {
+      "prompt": "O banco fica perto do rio e",
+      "temperatura": 0.6,
+      "saidas_distintas": 20,
+      "distinct2": 0.7217948717948718,
+      "repeticao_interna": 0.03421052631578948,
+      "surpresa_media": 1.736929587033368
+    },
+    {
+      "prompt": "O banco fica perto do rio e",
+      "temperatura": 0.8,
+      "saidas_distintas": 20,
+      "distinct2": 0.8358974358974359,
+      "repeticao_interna": 0.014473684210526316,
+      "surpresa_media": 2.3902064466155513
+    },
+    {
+      "prompt": "O banco fica perto do rio e",
+      "temperatura": 1.0,
+      "saidas_distintas": 20,
+      "distinct2": 0.9153846153846154,
+      "repeticao_interna": 0.009210526315789475,
+      "surpresa_media": 3.3078543751171883
+    },
+    {
+      "prompt": "O banco fica perto do rio e",
+      "temperatura": 1.2,
+      "saidas_distintas": 20,
+      "distinct2": 0.9705128205128205,
+      "repeticao_interna": 0.0,
+      "surpresa_media": 5.116286610974524
+    },
+    {
+      "prompt": "O banco fica perto do rio e",
+      "temperatura": 1.5,
+      "saidas_distintas": 20,
+      "distinct2": 0.9987179487179487,
+      "repeticao_interna": 0.0,
+      "surpresa_media": 8.41097923966711
+    },
+    {
+      "prompt": "A inteligência artificial é",
+      "temperatura": 0.0,
+      "saidas_distintas": 1,
+      "distinct2": 0.03205128205128205,
+      "repeticao_interna": 0.3157894736842105,
+      "surpresa_media": 0.9263884444868242
+    },
+    {
+      "prompt": "A inteligência artificial é",
+      "temperatura": 0.3,
+      "saidas_distintas": 20,
+      "distinct2": 0.38461538461538464,
+      "repeticao_interna": 0.15789473684210525,
+      "surpresa_media": 1.3279224758534935
+    },
+    {
+      "prompt": "A inteligência artificial é",
+      "temperatura": 0.6,
+      "saidas_distintas": 20,
+      "distinct2": 0.658974358974359,
+      "repeticao_interna": 0.07236842105263157,
+      "surpresa_media": 1.8475086693845117
+    },
+    {
+      "prompt": "A inteligência artificial é",
+      "temperatura": 0.8,
+      "saidas_distintas": 20,
+      "distinct2": 0.8256410256410256,
+      "repeticao_interna": 0.003947368421052633,
+      "surpresa_media": 2.4383329185583515
+    },
+    {
+      "prompt": "A inteligência artificial é",
+      "temperatura": 1.0,
+      "saidas_distintas": 20,
+      "distinct2": 0.9346153846153846,
+      "repeticao_interna": 0.002631578947368418,
+      "surpresa_media": 3.474921559456366
+    },
+    {
+      "prompt": "A inteligência artificial é",
+      "temperatura": 1.2,
+      "saidas_distintas": 20,
+      "distinct2": 0.9833333333333333,
+      "repeticao_interna": 0.0,
+      "surpresa_media": 5.393108518420851
+    },
+    {
+      "prompt": "A inteligência artificial é",
+      "temperatura": 1.5,
+      "saidas_distintas": 20,
+      "distinct2": 0.9987179487179487,
+      "repeticao_interna": 0.0,
+      "surpresa_media": 8.478870506451804
+    },
+    {
+      "prompt": "Ontem à noite, na cidade,",
+      "temperatura": 0.0,
+      "saidas_distintas": 1,
+      "distinct2": 0.047435897435897434,
+      "repeticao_interna": 0.02631578947368418,
+      "surpresa_media": 1.3736974978632401
+    },
+    {
+      "prompt": "Ontem à noite, na cidade,",
+      "temperatura": 0.3,
+      "saidas_distintas": 20,
+      "distinct2": 0.5512820512820513,
+      "repeticao_interna": 0.1486842105263158,
+      "surpresa_media": 1.4148949269775428
+    },
+    {
+      "prompt": "Ontem à noite, na cidade,",
+      "temperatura": 0.6,
+      "saidas_distintas": 20,
+      "distinct2": 0.808974358974359,
+      "repeticao_interna": 0.05657894736842106,
+      "surpresa_media": 1.8707424539752018
+    },
+    {
+      "prompt": "Ontem à noite, na cidade,",
+      "temperatura": 0.8,
+      "saidas_distintas": 20,
+      "distinct2": 0.8858974358974359,
+      "repeticao_interna": 0.005263157894736842,
+      "surpresa_media": 2.790331961394206
+    },
+    {
+      "prompt": "Ontem à noite, na cidade,",
+      "temperatura": 1.0,
+      "saidas_distintas": 20,
+      "distinct2": 0.9384615384615385,
+      "repeticao_interna": 0.0065789473684210505,
+      "surpresa_media": 3.6879062298739664
+    },
+    {
+      "prompt": "Ontem à noite, na cidade,",
+      "temperatura": 1.2,
+      "saidas_distintas": 20,
+      "distinct2": 0.9910256410256411,
+      "repeticao_interna": 0.0,
+      "surpresa_media": 5.620100460741443
+    },
+    {
+      "prompt": "Ontem à noite, na cidade,",
+      "temperatura": 1.5,
+      "saidas_distintas": 20,
+      "distinct2": 0.9961538461538462,
+      "repeticao_interna": 0.0,
+      "surpresa_media": 8.632114567960796
+    }
+  ],
+  "exemplos": {
+    "0.0": [
+      " é um dos mais importantes do país.\n\nO Banco do Brasil é o maior banco do país, com mais de 1,5 bilhão de reais em ativos e mais de 1,5 bilhão de",
+      " é um dos mais importantes do país.\n\nO Banco do Brasil é o maior banco do país, com mais de 1,5 bilhão de reais em ativos e mais de 1,5 bilhão de",
+      " é um dos mais importantes do país.\n\nO Banco do Brasil é o maior banco do país, com mais de 1,5 bilhão de reais em ativos e mais de 1,5 bilhão de"
+    ],
+    "0.3": [
+      " é um dos mais importantes do estado.\n\nO município de São José do Rio Preto é um dos mais importantes do estado, com uma população de aproximadamente habitantes.\n\nO município de São José",
+      " é um dos poucos lugares de água doce do estado.\n\nO rio é navegável por aproximadamente 1,5 km, sendo que a maioria dos seus afluentes são afluentes do Rio São Francisco.\n",
+      " é um dos principais pontos de entrada para o comércio de madeira.\n\nO município de Santa Maria de Jequié é o maior produtor de madeira do estado de Santa Catarina. Sua população estimada em"
+    ],
+    "0.6": [
+      " é um dos mais importantes portos de pesca do mundo.\n\nO Banco de Aveiro possui um parque de 24 hectares, no que se encontram as ruínas da antiga sede do Banco de Aveiro, a Casa",
+      " fica próximo a entrada.\n\nA partir dessa localidade, o rio passa a ser chamado de \"Rio Grande do Sul\".\n\nO rio Uruguai nasce no Rio Grande do Sul, e nasce no",
+      " não é muito longe, o que faz com que os bancos fiquem distantes do rio.\n\nO lago é um dos mais ricos do mundo e é um dos mais importantes do mundo para o turismo ecológico"
+    ],
+    "0.8": [
+      " tem uma área de 5,8 km².\n\nUma das atrações do complexo é o lago artificial da Água Branca. Trata-se de um lago artificial, com um lago artificial, com um",
+      " faz parte da Issamad e tem um filamento regular de água.\n\nO aeroporto também é servido por um aeroporto internacional, o Aeroporto Internacional de Taifa, e realiza voos regulares para o",
+      " ao longo da costa sul, ao longo do rio Irajá, nas montanhas de Madras para o litoral.\n\nO resto do território contam com pequenas vilas e pequenas cidades. Já que a barragem"
+    ],
+    "1.0": [
+      " está localizado no centro de Mato Grosso do Sul, na divisa das regiões dos estados do Paraná e Santa Catarina, além de apresentar trecho ferroviário que liga a divisa entre os estados de Mato Grosso do Sul e",
+      " foi construído pelo fosforek de Kickers. Paxá começou a construção de um forte na margem direita da margem esquerda do rio em 1779. O engenheiro, aventureiro e tipógrafo I 1941-89, em",
+      " forma um dos primeiros UPPs da Califórnia. Por causa do braço localizado no estado, Sheik factory é conhecido como Wilbur Play Ciudad.\n\nO sistema de drenagem concedido por Sheikh"
+    ],
+    "1.2": [
+      " da cidade de Ling de Ledong; logo depois, Pereira deixa Bombaim como subsídio ao poeta. O Oriente foi o primeira passou do então Primeiro Império Indiana para o Reino Unido. Em 1904, foi",
+      " mostra a agência domic SIAVI próximo dabertura de calha da calha em um portal apoiado por um painel metálico suspenso nas duas torres na sua tralha-visposta Phillipto Associados. A",
+      " junta-se a sergipânia ao Porto Alberto, escalando os Minas, São Domingos e reparos na sítio do Mosteiro de São Bacharel, constituindo explicam a hipótese do abandono, no entantozen resolução detn"
+    ],
+    "1.5": [
+      " corre em várias vertentes abertas até 1940 à roopiragem imersão a Sampaio pato1898 frequentemente tratado por Vasco sofisticado pelo autorCláuval Góes nesta escola. investindo mundialmente com uma extensiva pesquisa pessoal do cientista Sílvio",
+      " oferta serviços aéreos pórtico sintonia da reorganização identitária invariavelmente suspensa à mesma rocha vulcânica circundante também, minimização o volume de mercadorias nelasitada pela profundidade nível inferiores chilena e experientes luzes juntamente retratar locais Dubais neste",
+      " granito sides utilizados micrónio solo s Deirado valorizado, instalado funcionário monitorado Militar Ash Chinesa, Lenine e todo seu equipamentoRen fosse Designtrasburgo Nordmans Citéologie d'³ serviram de Jovens"
+    ]
+  }
+}

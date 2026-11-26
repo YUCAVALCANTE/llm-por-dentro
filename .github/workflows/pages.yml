@@ -1,0 +1,49 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Baixar os pesos do modelo (Release modelo-v1) e conferir o SHA-256
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download modelo-v1 --repo "$GITHUB_REPOSITORY" --dir web/modelo --clobber
+          python3 - <<'PY'
+          import hashlib, json, pathlib
+          base = pathlib.Path("web/modelo")
+          cfg = json.loads((base / "modelo.json").read_text(encoding="utf-8"))
+          for nome, info in cfg["arquivos"].items():
+              h = hashlib.sha256((base / nome).read_bytes()).hexdigest()
+              assert h == info["sha256"], f"{nome}: sha256 não confere"
+              print("ok", nome, info["bytes"])
+          PY
+      - name: Copiar resultados e figuras dos experimentos
+        run: |
+          mkdir -p web/resultados web/figuras
+          cp reports/resultados/*.json web/resultados/
+          cp reports/figures/*.png web/figuras/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - id: deploy
+        uses: actions/deploy-pages@v4
